@@ -4,9 +4,9 @@ gren=$(tput setaf 2)
 yellow=$(tput setaf 3)
 #Screen
 [[ ! -e /usr/bin/trans ]] && { 
-echo -e "Piratear e Muito feio, Tome Vergonha na cara"
-echo -e "Dei duro para chegar ate aqui, Muitas Noites sem dormir"
-echo -e "Adquira um Serial e Ajude o Desenvolvedor"
+echo -e "ESTE SCRIPT ES PRIVADO"
+echo -e "NO SEAS CHACA Y DEJA DE ROBAR"
+echo -e "ADQUIERE UNA KEY ORIGINAL"
 }
 SCPdir="/etc/newadm" && [[ ! -d ${SCPdir} ]] && exit 1
 SCPusr="${SCPdir}/ger-user" && [[ ! -d ${SCPusr} ]] && mkdir ${SCPusr}
@@ -18,7 +18,7 @@ AutoRun="\033[1;32m[on]"
 elif [[ -e /etc/bash.bashrc ]]; then
 AutoRun="\033[1;31m[off]"
 fi
-# Funcoes Globais
+# FUNCIONES GLOBALES
 msg () {
 BRAN='\033[33m' && VERMELHO='\e[31m'
 VERDE='\e[33m' && AMARELO='\e[33m'
@@ -47,7 +47,7 @@ if [[ -z $(echo ${texto[$2]}) ]]; then
 ENGINES=(aspell google deepl bing spell hunspell apertium yandex)
   while [[ -z $retorno ]]; do
     NUM="$(($RANDOM%${#ENGINES[@]}))"
-    retorno="$(source trans -e ${ENGINES[$NUM]} -b pt:$1 "$2"|sed -e 's/[^a-z0-9 -]//ig' 2>/dev/null)"
+    retorno="$(source trans -e ${ENGINES[$NUM]} -b es:$1 "$2"|sed -e 's/[^a-z0-9 -]//ig' 2>/dev/null)"
   done
  echo "texto[$2]='$retorno'"  >> /etc/texto-adm
  echo "$retorno"
@@ -59,15 +59,15 @@ atualiza_fun () {
 cd $HOME
 tput cuu1 && tput dl1
 msg -bar2
-msg -ama "$(fun_trans ${id} "ATUALIZADOR SCRIPT"): \033[1;31m[GOLDEN ADM PRO]"
-msg -verm "$(fun_trans ${id} "Ao Prosseguirmos Dados como Tempo de uso Serao Perdidos"): "
+msg -ama "$(fun_trans ${id} "ACTUALIZAR SCRIPT"): \033[1;31m[GOLDEN ADM PRO]"
+msg -verm "$(fun_trans ${id} "A medida que continuamos, se perderalos datos como el tiempo de uso"): "
 msg -bar2
 while [[ $Key != @(s|S|y|Y|n|N) ]]; do
-msg -ne "$(fun_trans ${id} "Concorda")? [S/N]: " && read Key
+msg -ne "$(fun_trans ${id} "Esta de acuerdo")? [S/N]: " && read Key
 tput cuu1 && tput dl1
 done
 if [[ $Key = @(s|S|y|Y) ]]; then
-msg -verm "$(fun_trans ${id} "Perfeito Iniciando Procedimento"): "
+msg -verm "$(fun_trans ${id} "Procedimiento de actualizacion iniciado"): "
 wget -O $HOME/goldenvps.sh https://www.dropbox.com/s/vhop80oeb5pjxfg/goldenvps.sh &>/dev/null
 chmod +x $HOME/goldenvps.sh*
 $HOME/goldenvps.sh "${id}"
@@ -192,9 +192,9 @@ done
 echo "$txtofus" | rev
 }
 remove_ferramenta () {
-echo -e "\033[33m$(fun_trans ${id} "ATENCAO"): "
-echo -e "\033[33m$(fun_trans ${id} "Esse Processo Nao Podera ser Desfeito")"
-echo -e "\033[33m$(fun_trans ${id} "Selecione a Ferramenta que Deseja Remover")"
+echo -e "\033[33m$(fun_trans ${id} "ATENCION"): "
+echo -e "\033[33m$(fun_trans ${id} "Este proceso no se pudo deshacer")"
+echo -e "\033[33m$(fun_trans ${id} "Seleccione la herramienta que desea eliminar")"
 msg -bar2
 i=0
 for arqs in $(ls ${SCPfrm}); do
@@ -203,8 +203,8 @@ ferramentas_data "$arqs" "$i" && {
   let i++
   }
 done
-echo -ne "\033[1;32m [0] > " && msg -bra "$(fun_trans ${id} "VOLTAR")"
-script[0]="voltar"
+echo -ne "\033[1;32m [0] > " && msg -bra "$(fun_trans ${id} "VOLVER")"
+script[0]="volver"
 msg -bar2
 selection=999
 while [[ -z ${script[$selection]} ]]; do
@@ -217,9 +217,9 @@ agregar_ferramenta () {
 tput cuu1 && tput dl1
 msg -bar2
 unset Key
-echo -e "\033[1;31m$(fun_trans ${id} "ATENCAO"): "
-echo -e "\033[1;33m$(fun_trans ${id} "nao introduza uma key de atualizacao aqui")"
-echo -e "\033[1;37m$(fun_trans ${id} "Digite Chave Para o Novo Recurso") "
+echo -e "\033[1;31m$(fun_trans ${id} "ATENCION"): "
+echo -e "\033[1;33m$(fun_trans ${id} "No ingrese una clave de actualizacion aqui")"
+echo -e "\033[1;37m$(fun_trans ${id} "Introduce una clave para nueva funcion") "
 msg -bar2
 while [[ -z $Key ]]; do
 echo -ne "[Key/Link]: " && read Key
@@ -231,11 +231,11 @@ curl "$Key" &> /dev/null
 if [[ $? = "0" ]]; then
 echo -e "\033[1;32m $(fun_trans ${id} "Link Valido")"
 REC=$(echo $Key|awk -F"/" '{print $NF}')
-echo -ne "\033[1;33m$(fun_trans ${id} "Recebendo Recurso"): \033[1;31m[$REC]"
-wget -O ${SCPfrm}/${REC} $Key &>/dev/null && echo -e "\033[1;31m- \033[1;32m$(fun_trans ${id} "Recebido")" && chmod +x ${SCPfrm}/${REC} || echo -e "\033[1;31m- \033[1;31m$(fun_trans ${id} "Erro ao Receber")"
+echo -ne "\033[1;33m$(fun_trans ${id} "Recibiendo Recurso"): \033[1;31m[$REC]"
+wget -O ${SCPfrm}/${REC} $Key &>/dev/null && echo -e "\033[1;31m- \033[1;32m$(fun_trans ${id} "Recibido")" && chmod +x ${SCPfrm}/${REC} || echo -e "\033[1;31m- \033[1;31m$(fun_trans ${id} "Error no Recibido")"
 else
 wget $(ofus "$Key") >/dev/null 2>&1 && echo -e "\033[1;32m $(fun_trans ${id} "Key Valida")" || {
-    msg -verm "$(fun_trans ${id} "Chave invalida")"
+    msg -verm "$(fun_trans ${id} "Clave invalida")"
     msg -bar2
     return 0   
     }
@@ -243,22 +243,22 @@ fi
 IP=$(ofus "$Key" | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
 sleep 1s
 [[ -e ${SCPfrm}/lista-arq ]] && {
-  if [[ $(cat ${SCPfrm}/lista-arq) = "KEY DE INSTALAÇAO!" ]]; then
-  echo -e "\033[1;33m$(fun_trans ${id} "CHAVE DE INSTALACAO NAO DEVE SER USADA AQUI")"
+  if [[ $(cat ${SCPfrm}/lista-arq) = "KEY DE INSTALACION!" ]]; then
+  echo -e "\033[1;33m$(fun_trans ${id} "LA LLAVE DE INSTALACION NO DEBE SER USADA AQUI")"
   msg -bar2
   rm ${SCPfrm}/lista-arq
   return 1
   fi
   if [[ $(cat ${SCPfrm}/lista-arq) = "KEY INVALIDA!" ]]; then
-  echo -e "\033[1;33m$(fun_trans ${id} "CHAVE INVALIDA")"
+  echo -e "\033[1;33m$(fun_trans ${id} "CLAVE INVALIDA")"
   msg -bar2
   rm ${SCPfrm}/lista-arq
   return 1
   fi
   REQUEST=$(ofus "$Key" |cut -d'/' -f2)
   for arqx in $(cat ${SCPfrm}/lista-arq); do
-  echo -ne "\033[1;33m$(fun_trans ${id} "Recebendo Recurso"): \033[1;31m[$arqx] "
-  wget -O ${SCPfrm}/${arqx} ${IP}:81/${REQUEST}/${arqx} > /dev/null 2>&1 && echo -e "\033[1;31m- \033[1;32m$(fun_trans ${id} "Recebido")" && chmod +x ${SCPfrm}/${arqx} || echo -e "\033[1;31m- \033[1;31m$(fun_trans ${id} "Erro ao Receber")"
+  echo -ne "\033[1;33m$(fun_trans ${id} "Recibiendo Recurso"): \033[1;31m[$arqx] "
+  wget -O ${SCPfrm}/${arqx} ${IP}:81/${REQUEST}/${arqx} > /dev/null 2>&1 && echo -e "\033[1;31m- \033[1;32m$(fun_trans ${id} "Recibido")" && chmod +x ${SCPfrm}/${arqx} || echo -e "\033[1;31m- \033[1;31m$(fun_trans ${id} "Error no Recibido")"
   sleep 1s
   done
   rm ${SCPfrm}/lista-arq
@@ -287,7 +287,7 @@ rm /tmp/* &>/dev/null
 touch /tmp/abc
 sleep 0.5s
 msg -bar
-msg -ama "$(fun_trans ${id} "PROCESSO CONCLUIDO")"
+msg -ama "$(fun_trans ${id} "PROCESO CONCLUIDO")"
 msg -bar
 }
 fun_autorun () {
@@ -321,7 +321,7 @@ system=$(echo $(cat -n /etc/issue |grep 1 |cut -d' ' -f6,7,8 |sed 's/1//' |sed '
 echo $system|awk '{print $1, $2}'
 }
 remove_script () {
-msg -ama "$(fun_trans ${id} "CONFIRMA REMOCAO TOTAL DOS SCRIPTS")?"
+msg -ama "$(fun_trans ${id} "CONFIRMAR REMOVER SCRIPT")?"
 msg -bar
 while [[ ${yesno} != @(s|S|y|Y|n|N) ]]; do
 read -p "[S/N]: " yesno
@@ -338,19 +338,19 @@ fi
 }
 # Menu Ferramentas
 systen_info () {
-msg -ama "$(fun_trans ${id} "DETALHES DO SISTEMA")"
+msg -ama "$(fun_trans ${id} "DETALLES DE SISTEMA")"
 null="\033[1;31m"
 msg -bar
 if [ ! /proc/cpuinfo ]; then
-msg -verm "$(fun_trans ${id} "Sistema Nao Suportado")" && msg -bar
+msg -verm "$(fun_trans ${id} "Sistema No Soportado")" && msg -bar
 return 1
 fi
 if [ ! /etc/issue.net ]; then
-msg -verm "$(fun_trans ${id} "Sistema Nao Suportado")" && msg -bar
+msg -verm "$(fun_trans ${id} "Sistema No Soportado")" && msg -bar
 return 1
 fi
 if [ ! /proc/meminfo ]; then
-msg -verm "$(fun_trans ${id} "Sistema Nao Suportado")" && msg -bar
+msg -verm "$(fun_trans ${id} "Sistema No Soportado")" && msg -bar
 return 1
 fi
 totalram=$(free | grep Mem | awk '{print $2}')
@@ -363,18 +363,18 @@ based=$(cat /etc/*release | grep ID_LIKE | awk -F "=" '{print $2}')
 processor=$(cat /proc/cpuinfo | grep "model name" | uniq | awk -F ":" '{print $2}')
 cpus=$(cat /proc/cpuinfo | grep processor | wc -l)
 [[ "$system" ]] && msg -ama "$(fun_trans ${id} "Sistema"): ${null}$system" || msg -ama "$(fun_trans ${id} "Sistema"): ${null}???"
-[[ "$based" ]] && msg -ama "$(fun_trans ${id} "Baseado"): ${null}$based" || msg -ama "$(fun_trans ${id} "Baseado"): ${null}???"
+[[ "$based" ]] && msg -ama "$(fun_trans ${id} "Basado"): ${null}$based" || msg -ama "$(fun_trans ${id} "Basado"): ${null}???"
 [[ "$processor" ]] && msg -ama "$(fun_trans ${id} "Processador"): ${null}$processor x$cpus" || msg -ama "$(fun_trans ${id} "Processador"): ${null}???"
-[[ "$clock" ]] && msg -ama "$(fun_trans ${id} "Frequecia de Operacao"): ${null}$clock MHz" || msg -ama "$(fun_trans ${id} "Frequecia de Operacao"): ${null}???"
+[[ "$clock" ]] && msg -ama "$(fun_trans ${id} "Frequecia de Operacion"): ${null}$clock MHz" || msg -ama "$(fun_trans ${id} "Frequecia de Operacion"): ${null}???"
 msg -ama "$(fun_trans ${id} "Uso do Processador"): ${null}$(ps aux  | awk 'BEGIN { sum = 0 }  { sum += sprintf("%f",$3) }; END { printf " " "%.2f" "%%", sum}')"
 msg -ama "$(fun_trans ${id} "Memoria Virtual Total"): ${null}$(($totalram / 1024))"
 msg -ama "$(fun_trans ${id} "Memoria Virtual Em Uso"): ${null}$(($usedram / 1024))"
-msg -ama "$(fun_trans ${id} "Memoria Virtual Livre"): ${null}$(($freeram / 1024))"
+msg -ama "$(fun_trans ${id} "Memoria Virtual Libre"): ${null}$(($freeram / 1024))"
 msg -ama "$(fun_trans ${id} "Memoria Virtual Swap"): ${null}$(($swapram / 1024))MB"
-msg -ama "$(fun_trans ${id} "Tempo Online"): ${null}$(uptime)"
-msg -ama "$(fun_trans ${id} "Nome Da Maquina"): ${null}$(hostname)"
-msg -ama "$(fun_trans ${id} "Endereço Da Maquina"): ${null}$(ip addr | grep inet | grep -v inet6 | grep -v "host lo" | awk '{print $2}' | awk -F "/" '{print $1}')"
-msg -ama "$(fun_trans ${id} "Versao do Kernel"): ${null}$(uname -r)"
+msg -ama "$(fun_trans ${id} "Tiempo Online"): ${null}$(uptime)"
+msg -ama "$(fun_trans ${id} "Nombre De Maquina"): ${null}$(hostname)"
+msg -ama "$(fun_trans ${id} "Direccion De Maquina"): ${null}$(ip addr | grep inet | grep -v inet6 | grep -v "host lo" | awk '{print $2}' | awk -F "/" '{print $1}')"
+msg -ama "$(fun_trans ${id} "Version de Kernel"): ${null}$(uname -r)"
 msg -ama "$(fun_trans ${id} "Arquitetura"): ${null}$(uname -m)"
 msg -bar
 return 0
@@ -382,29 +382,29 @@ return 0
 ferramentas_data () {
 case $1 in
 "dados.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "MONITOR DE CONSUMO";;
-"ports.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "SISTEMA DE PORTAS") ";;
-"fai2ban.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "FAIL2BAN PROTECÇÃO") ";;
-"gestor.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "SERVIÇOS VPS") ";;
+"ports.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "SISTEMA DE PUERTOS") ";;
+"fai2ban.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "FAIL2BAN PROTECCION") ";;
+"gestor.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "SERVICIOS VPS") ";;
 "anti-ddos.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "PROTECCION ANTI-DDOS";;
 "un-ddos.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "REMOVER ANTI-DDOS";;
 "paysnd.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "PAYLOAD PARA FUERZA BRUTA";;
-"apacheon.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "COMPARTILHAR ARQUIVO ONLINE") ";;
+"apacheon.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "COMPARTIR ARCHIVO ONLINE") ";;
 "utils.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "Badvpn/tcpspeed/squidcache/torrent";;
-"speed.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "TESTE DE VELOCIDADE") ";;
+"speed.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "TEST DE VELOCIDAD") ";;
 "ultrahost")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "SCANNER DE SUBDOMINIO") ";;
-"ADMbot.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "BOT DE GERENCIAMENTO") TELEGRAN ";;
+"ADMbot.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "BOT DE ADMINISTRACION") TELEGRAN ";;
 "optimizar.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "OPTIMIZAR VPS") ";;
 "toolmaster.py")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "TOOL MASTER") ";;
 "theharverest.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "SCANNER CHINGON") ";;
 "tshark.sh")echo -ne "\033[1;32m [$2] > " && msg -azu "$(fun_trans ${id} "SNIFFER VPS") ";;
 "speedtest.py")return 1;;
-*)echo -ne "\033[1;32m [$2] > " && msg -azu "${1^^} \033[1;33m($(fun_trans ${id} "Sem Descricao")!)";;
+*)echo -ne "\033[1;32m [$2] > " && msg -azu "${1^^} \033[1;33m($(fun_trans ${id} "Sin Descripcion")!)";;
 esac
 }
 ferramentas_fun () {
 tput cuu1 && tput dl1
 msg -bar2
-msg -ama "$(fun_trans ${id} "MENU DE FERRAMENTAS")"
+msg -ama "$(fun_trans ${id} "MENU DE HERRAMIENTAS")"
 msg -bar2
 i=1
 for arqs in $(ls ${SCPfrm}); do
@@ -413,18 +413,18 @@ ferramentas_data "$arqs" "$i" && {
   let i++
   }
 done
-echo -ne "\033[1;32m [$i] > " && msg -azu "$(fun_trans ${id} "DETALHES DO SISTEMA") $ofc"
+echo -ne "\033[1;32m [$i] > " && msg -azu "$(fun_trans ${id} "DETALLES DE SISTEMA") $ofc"
 script[$i]="systeminf"
 let i++
-echo -ne "\033[1;32m [$i] > " && msg -azu "$(fun_trans ${id} "LIMPAR CACHE SISTEMA") $ofc"
+echo -ne "\033[1;32m [$i] > " && msg -azu "$(fun_trans ${id} "LIMPIAR CACHE SISTEMA") $ofc"
 script[$i]="limpar"
 let i++
-echo -ne "\033[1;32m [$i] > \033[1;33m[!] " && msg -verd "$(fun_trans ${id} "ADICIONAR FERRAMENTAS")"
+echo -ne "\033[1;32m [$i] > \033[1;33m[!] " && msg -verd "$(fun_trans ${id} "ADICIONAR HERRAMIENTAS")"
 script[$i]="agregar"
 let i++
-echo -ne "\033[1;32m [$i] > \033[1;33m" && msg -verm "$(fun_trans ${id} "REMOVER FERRAMENTAS")"
+echo -ne "\033[1;32m [$i] > \033[1;33m" && msg -verm "$(fun_trans ${id} "REMOVER HERRAMIENTAS")"
 script[$i]="remove"
-echo -ne "\033[1;32m [0] > " && msg -bra "$(fun_trans ${id} "VOLTAR")"
+echo -ne "\033[1;32m [0] > " && msg -bra "$(fun_trans ${id} "VOLVER")"
 script[0]="voltar"
 msg -bar2
 selection=999
@@ -438,7 +438,7 @@ done
   case ${script[$selection]} in
   "agregar")agregar_ferramenta;;
   "remove")remove_ferramenta;;
-  "limpar")limpar_caches;;
+  "limpiar")limpar_caches;;
   "systeminf")systen_info;;
   *)return 0;;
   esac
@@ -474,8 +474,8 @@ case $1 in
 esac
 }
 menu_inst () {
-menuTXT="$(fun_trans ${id} "VOLTAR")"
-msg -ama "$(fun_trans ${id} "MENU DE INSTALACAO")"
+menuTXT="$(fun_trans ${id} "VOLVER")"
+msg -ama "$(fun_trans ${id} "MENU DE INSTALACION")"
 msg -bar
 i=1
 for arqs in $(ls ${SCPinst}); do
@@ -501,18 +501,18 @@ done
 textos_fun () {
 id="$1"
 [[ -e /tmp/txt ]] && rm /tmp/txt
-echo "txt[1]='$(fun_trans ${id} "GERENCIAR USUARIOS")'" >> /tmp/txt &
-echo "txt[2]='$(fun_trans ${id} "FERRAMENTAS")'" >> /tmp/txt &
-echo "txt[3]='$(fun_trans ${id} "TROCAR IDIOMA")'" >> /tmp/txt &
-echo "txt[4]='$(fun_trans ${id} "ATUALIZAR")'" >> /tmp/txt &
+echo "txt[1]='$(fun_trans ${id} "ADMINISTRACION DE USUARIOS")'" >> /tmp/txt &
+echo "txt[2]='$(fun_trans ${id} "HERRAMIENTAS")'" >> /tmp/txt &
+echo "txt[3]='$(fun_trans ${id} "CAMBIAR IDIOMA")'" >> /tmp/txt &
+echo "txt[4]='$(fun_trans ${id} "ACTUALIZAR")'" >> /tmp/txt &
 echo "txt[5]='$(fun_trans ${id} "DESINSTALAR")'" >> /tmp/txt &
-echo "txt[6]='$(fun_trans ${id} "AUTO INICIALIZACAO")'" >> /tmp/txt &
-echo "txt[7]='$(fun_trans ${id} "Selecione a Opcao")'" >> /tmp/txt &
+echo "txt[6]='$(fun_trans ${id} "AUTO INICIALIZAR")'" >> /tmp/txt &
+echo "txt[7]='$(fun_trans ${id} "Selecione una opcion")'" >> /tmp/txt &
 echo "txt[8]='$(fun_trans ${id} "Enter Para Continuar")'" >> /tmp/txt &
 echo "txt[9]='$(fun_trans ${id} "GERENCIADOR")'" >> /tmp/txt &
 echo "txt[10]='$(fun_trans ${id} "PUERTOS ACTIVOS E INFORMACION DEL SERVIDOR")'" >> /tmp/txt &
-echo "txt[11]='$(fun_trans ${id} "MENU DE INSTALACOES")'" >> /tmp/txt &
-echo "txt[12]='$(fun_trans ${id} "SAIR DO SCRIPT")'" >> /tmp/txt &
+echo "txt[11]='$(fun_trans ${id} "MENU DE INSTALACIONES")'" >> /tmp/txt &
+echo "txt[12]='$(fun_trans ${id} "SALIR DE SCRIPT")'" >> /tmp/txt &
 while [[ ! -e /tmp/txt || $(cat /tmp/txt|wc -l) -lt "12"  ]]; do
 continue
 done
@@ -520,7 +520,7 @@ source /tmp/txt && rm /tmp/txt
 }
 [[ ! -e ${SCPidioma} ]] && touch ${SCPidioma}
 idioma=$(cat ${SCPidioma})
-[[ -z ${idioma} ]] && textos_fun pt || textos_fun ${idioma}
+[[ -z ${idioma} ]] && textos_fun es || textos_fun ${idioma}
 clear
 msg -bar
 msg -ama "${txt[10]}"
@@ -535,7 +535,8 @@ msg -bar3
 [[ -e ${SCPdir}/message.txt ]] && msg -bra "DISTRIBUIDOR: $(cat ${SCPdir}/message.txt)"
 msg -bar3
 msg -ama ">>>>>>>>\033[97m[\033[33m PANEL DE ADMINISTRACION PARA VPS \033[97m]\033[33m<<<<<<<< "
-msg -ama "         \033[97m[\033[33m GOLDEN ADM PRO by @DEADSHOT593 \033[97m] "
+msg -ama "         \033[97m         [\033[33m GOLDEN ADM PRO \033[97m] "
+msg -ama "         \033[97m           [\033[33m LUPIS LOVE \033[97m] "
 msg -bar3
 echo -ne "\033[33m [1] > " && msg -azu "${txt[1]}"
 echo -ne "\033[33m [2] > " && msg -azu "${txt[2]}"

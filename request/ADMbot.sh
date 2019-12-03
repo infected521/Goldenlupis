@@ -13,7 +13,7 @@ echo '' > /etc/texto-bot
 chmod +x /etc/texto-bot
 }
 if [[ -z $(echo ${texto[$@]}) ]]; then
- retorno="$(source trans -b pt:${IDIOMA} "$@"|sed -e 's/[^a-z0-9 -]//ig')"
+ retorno="$(source trans -b es:${IDIOMA} "$@"|sed -e 's/[^a-z0-9 -]//ig')"
  echo "texto[$@]='$retorno'"  >> /etc/texto-bot
  echo "${retorno}"
 else
@@ -26,12 +26,12 @@ fi
 [[ -e /etc/texto-bot ]] && rm /etc/texto-bot
 #VARIAVEL ENTRADA TOKEN
 if [[ $1 = "id" || -z $(ps aux |grep -v grep |grep -w "ADMbot.sh"|grep dmS|awk '{print $2}') ]]; then
-[[ -z $2 ]] && echo -ne "\033[1;37m$(fun_trans "Digite o Token do bot"): " && read TOKEN || TOKEN="$2"
+[[ -z $2 ]] && echo -ne "\033[1;37m$(fun_trans "Digite el Token del Bot"): " && read TOKEN || TOKEN="$2"
 [[ -z "$TOKEN" ]] && exit 1 #SEM TOKEN, SEM BOT
-IDIOMA="$(cat ${SCPidioma})" && [[ -z $IDIOMA ]] && IDIOMA="pt" #ARGUMENTO 2 (IDIOMA)
-[[ -z $3 ]] && echo -ne "\033[1;37m$(fun_trans "Digite seu Usuario"): " && read USERLIB || USERLIB="$3"
+IDIOMA="$(cat ${SCPidioma})" && [[ -z $IDIOMA ]] && IDIOMA="es" #ARGUMENTO 2 (IDIOMA)
+[[ -z $3 ]] && echo -ne "\033[1;37m$(fun_trans "Digite su Usuario"): " && read USERLIB || USERLIB="$3"
 [[ -z "$USERLIB" ]] && exit 1 #USUARIO
-[[ -z $4 ]] && echo -ne "\033[1;37m$(fun_trans "Digite sua Senha"): " && read PASSLIB || PASSLIB="$4"
+[[ -z $4 ]] && echo -ne "\033[1;37m$(fun_trans "Digite su password"): " && read PASSLIB || PASSLIB="$4"
 [[ -z "$PASSLIB" ]] && exit 1 #SENHA
 [[ -z $2 ]] && [[ -z $3 ]] && [[ -z $4 ]] && {
 screen -dmS telebot ${SCPfrm}/ADMbot.sh id "$TOKEN" "$USERLIB" "$PASSLIB"
@@ -39,7 +39,7 @@ echo -e '\e[34m}======================================================'
 exit 0
 }
 else
-kill -9 $(ps aux |grep -v grep |grep -w "ADMbot.sh"|grep dmS|awk '{print $2}') && echo -e "\033[1;37m$(fun_trans "Bot Encerrado com Sucesso")"
+kill -9 $(ps aux |grep -v grep |grep -w "ADMbot.sh"|grep dmS|awk '{print $2}') && echo -e "\033[1;37m$(fun_trans "Bot terminado exitosamente")"
 echo -e '\e[34m}======================================================'
 exit 0
 fi
@@ -165,7 +165,7 @@ fi
 # USUARIO BLOCK
 blockfun () {
 local bot_retorno="$LINE\n"
-          bot_retorno+="$(fun_trans "VOCE NAO PODE USAR O BOT")\n"
+          bot_retorno+="$(fun_trans "NO PUEDES USAR EL BOT")\n"
           bot_retorno+="$LINE\n"
           bot_retorno+="$(fun_trans "Comandos Bloqueados")\n"
           bot_retorno+="$LINE\n"
@@ -178,10 +178,10 @@ local bot_retorno="$LINE\n"
 ativarid_fun () {
 if [[ ! -z $LIBERADOS ]] && [[ $(echo ${LIBERADOS}|grep -w "$3") ]]; then
 local bot_retorno+="$LINE\n"
-          bot_retorno+="$(fun_trans "ACESSO JA ESTA LIBERADO")\n"
+          bot_retorno+="$(fun_trans "EL ACCESO YA ESTA LIBERADO")\n"
           bot_retorno+="$LINE\n"
-          bot_retorno+="$(fun_trans "Voce ja esta Liberado")\n"
-          bot_retorno+="$(fun_trans "Bom Uso")\n"
+          bot_retorno+="$(fun_trans "Ya esta liberado")\n"
+          bot_retorno+="$(fun_trans "Buen uso")\n"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -190,10 +190,10 @@ return 0
 elif [[ $1 = ${USERLIB} ]] && [[ $2 = ${PASSLIB} ]]; then
 [[ -z $LIBERADOS ]] && LIBERADOS="${3}" || LIBERADOS="${LIBERADOS} ${3}"
 local bot_retorno+="$LINE\n"
-          bot_retorno+="$(fun_trans "LIBERACAO EFETUADA COM SUCESSO")\n"
+          bot_retorno+="$(fun_trans "LIBERACION EFECTUACON CON EXICO")\n"
           bot_retorno+="$LINE\n"
-          bot_retorno+="$(fun_trans "Agora voce pode gerenciar o bot")\n"
-          bot_retorno+="$(fun_trans "Bom Uso")\n"
+          bot_retorno+="$(fun_trans "Ahora puedes administrar el bot")\n"
+          bot_retorno+="$(fun_trans "Buen uso")\n"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -201,11 +201,11 @@ local bot_retorno+="$LINE\n"
 return 0
 else
 local bot_retorno+="$LINE\n"
-          bot_retorno+="$(fun_trans "VOCE NAO PODE USAR ESTE BOT")\n"
+          bot_retorno+="$(fun_trans "NO PUEDE USAR ESTE BOT")\n"
           bot_retorno+="$LINE\n"
-          bot_retorno+="$(fun_trans "Nao tem permissao de uso")\n"
-          bot_retorno+="$(fun_trans "Tentativa de acesso negada")\n"
-          bot_retorno+="$(fun_trans "Usuario e Senha Errados")\n"
+          bot_retorno+="$(fun_trans "No esta permitido usar")\n"
+          bot_retorno+="$(fun_trans "Intento de acceso denegado")\n"
+          bot_retorno+="$(fun_trans "Nombre de usuario y contrasena incorrectos")\n"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -215,7 +215,7 @@ fi
 }
 loguin_fun () {
 local bot_retorno+="$LINE\n"
-          bot_retorno+="$(fun_trans "USUARIOS LIBERADOS NO BOT")\n"
+          bot_retorno+="$(fun_trans "USUARIOS LIBERADOS EN EL BOT")\n"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -246,13 +246,13 @@ done <<< "$portas_var"
 echo -e $portas
 }
 local bot_retorno="$LINE\n"
-          bot_retorno+="$(fun_trans "Portas e Servicos Ativos")\n"
+          bot_retorno+="$(fun_trans "Puertos y Servicios Activos")\n"
           bot_retorno+="$LINE\n"
           bot_retorno+="IP: $(meu_ip)\n"
           while read line; do
           local serv=$(echo $line|cut -d'|' -f1)
           local port=$(echo $line|cut -d'|' -f2)
-          bot_retorno+="$(fun_trans "Servico"): ${serv} $(fun_trans "Porta"): ${port}\n"
+          bot_retorno+="$(fun_trans "Servicio"): ${serv} $(fun_trans "Puerto"): ${port}\n"
           done <<< "$(mine_port)"
           bot_retorno+="$LINE\n"
 	      ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
@@ -263,24 +263,24 @@ local bot_retorno="$LINE\n"
 # AJUDA
 ajuda_fun () {
 local bot_retorno="$LINE\n"
-         bot_retorno+="$(fun_trans "Ola Amigo")\n"
-         bot_retorno+="$(fun_trans "Seja Bem Vindo ao BOT")\n"
+         bot_retorno+="$(fun_trans "Hola Amigo")\n"
+         bot_retorno+="$(fun_trans "Bienvenidos al Bot")\n"
          bot_retorno+="$LINE\n"
-         bot_retorno+="$(fun_trans "Aqui Esta a lista de Comandos Disponiveis")\n"
+         bot_retorno+="$(fun_trans "Aqui Esta la lista de Comandos Disponibles")\n"
          bot_retorno+="$LINE\n"
          bot_retorno+="$(fun_trans "COMANDOS")\n"
          bot_retorno+="/online ($(fun_trans "usuarios online"))\n"
          bot_retorno+="/useradd ($(fun_trans "adicionar usuario"))\n"
-         [[ $(dpkg --get-selections|grep -w "openvpn"|head -1) ]] && [[ -e /etc/openvpn/openvpn-status.log ]] && bot_retorno+="/openadd ($(fun_trans "criar arquivo openvpn"))\n"
+         [[ $(dpkg --get-selections|grep -w "openvpn"|head -1) ]] && [[ -e /etc/openvpn/openvpn-status.log ]] && bot_retorno+="/openadd ($(fun_trans "Crear archivo openvpn"))\n"
          bot_retorno+="/userdell ($(fun_trans "remover usuario"))\n"
-         bot_retorno+="/info ($(fun_trans "informacoes dos usuarios"))\n"
-         bot_retorno+="/infovps ($(fun_trans "informacao do servidor"))\n"
-         bot_retorno+="/usuarios ($(fun_trans "usuarios liberados no bot"))\n"
-         bot_retorno+="/lang ($(fun_trans "Traduz um texto"))\n"
-         bot_retorno+="/scan ($(fun_trans "faz um scan de subdominios"))\n"
-         bot_retorno+="/gerar ($(fun_trans "gerador de payload"))\n"
-         bot_retorno+="/criptar ($(fun_trans "Codifica e Decodifica um Texto"))\n"
-         bot_retorno+="/logar $(fun_trans "Usuario Senha") ($(fun_trans "libera o bot"))\n"
+         bot_retorno+="/info ($(fun_trans "informacion de usuarios"))\n"
+         bot_retorno+="/infovps ($(fun_trans "informacion de servidor"))\n"
+         bot_retorno+="/usuarios ($(fun_trans "usuarios liberados del bot"))\n"
+         bot_retorno+="/lang ($(fun_trans "Traducir un texto"))\n"
+         bot_retorno+="/scan ($(fun_trans "Escanear subdominios"))\n"
+         bot_retorno+="/gerar ($(fun_trans "generador de payload"))\n"
+         bot_retorno+="/criptar ($(fun_trans "Codifica y Decodifica un Texto"))\n"
+         bot_retorno+="/logar $(fun_trans "Usuario Contrasena") ($(fun_trans "libera el bot"))\n"
          bot_retorno+="$LINE\n"
 	     ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -290,8 +290,8 @@ local bot_retorno="$LINE\n"
 info_fun () {
 if [[ ! -e "${USRdatabase}" ]]; then
 local bot_retorno="$LINE\n"
-          bot_retorno="$(fun_trans "Nao Foi Identificado uma Database Com Usuarios")\n"
-          bot_retorno="$(fun_trans "Os Usuarios a Seguir Nao Contem Nenhuma Informacao")\n"
+          bot_retorno="$(fun_trans "Ninguna base de datos identificada con usuarios")\n"
+          bot_retorno="$(fun_trans "Los siguientes usuarios no contienen informacion")\n"
           bot_retorno+="$LINE\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -299,7 +299,7 @@ local bot_retorno="$LINE\n"
 else
 VPSsec=$(date +%s)
 local bot_retorno="$LINE\n"
-         bot_retorno+="$(fun_trans "Usuarios Cadastrados")\n"
+         bot_retorno+="$(fun_trans "Usuarios registrados")\n"
          bot_retorno+="$LINE\n"
          ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -318,7 +318,7 @@ local bot_retorno="$LINE\n"
              [[ -z $limit ]] && limit="???"
              bot_retorno="$LINE\n"       
              bot_retorno+="$(fun_trans "Usuario"): $user\n"
-             bot_retorno+="$(fun_trans "Senha"): $sen\n"
+             bot_retorno+="$(fun_trans "Password"): $sen\n"
              bot_retorno+="$(fun_trans "Dias Restantes"): $EXPTIME\n"
              bot_retorno+="$(fun_trans "Limite"): $limit\n"
              bot_retorno+="$LINE\n"
@@ -354,8 +354,8 @@ TOTALPID="$(echo $PID|bc)/$MAXPID"
 local IMPRIME="YES"
 local bot_retorno+="$LINE\n"
           bot_retorno="$(fun_trans "Usuario"): $user\n"
-          bot_retorno+="$(fun_trans "Conexoes"): $TOTALPID\n"
-          bot_retorno+="$(fun_trans "Tempo Total"): $HOUR\n"
+          bot_retorno+="$(fun_trans "Conexiones"): $TOTALPID\n"
+          bot_retorno+="$(fun_trans "Tiempo Total"): $HOUR\n"
           bot_retorno+="$LINE\n"
          ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -363,7 +363,7 @@ local bot_retorno+="$LINE\n"
 done <<< "$(mostrar_usuarios)"
 [[ -z $IMPRIME ]] && {
  local bot_retorno="$LINE\n"
-          bot_retorno+="$(fun_trans "Nenhum Usuario Online no Momento")\n"
+          bot_retorno+="$(fun_trans "No hay usuarios en linea en este momento")\n"
           bot_retorno+="$LINE\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -376,31 +376,31 @@ error_fun () {
 local bot_retorno="$LINE\n"
          bot_retorno+="$(fun_trans "MODO DE USO")\n"
          bot_retorno+="$LINE\n"
-         bot_retorno+="useradd $(fun_trans "Usuario Senha Dias Limite")\n"
+         bot_retorno+="useradd $(fun_trans "Usuario Password Dias Limite")\n"
          bot_retorno+="$(fun_trans "Exemplo"):\n"
          bot_retorno+='useradd admin admin 30 1\n'
          bot_retorno+="$LINE\n"
          case $1 in
          [1-3]|14)
          [[ $1 = 1 ]] && bot_retorno+="$(fun_trans "Usuario Nulo")" && bot_retorno+="$LINE\n"
-         [[ $1 = 2 ]] && bot_retorno+="$(fun_trans "Usuario Com Nome Muito Curto")" && bot_retorno+="$LINE\n"
-         [[ $1 = 3 ]] && bot_retorno+="$(fun_trans "Usuario Com Nome Muito Grande")" && bot_retorno+="$LINE\n"
-         [[ $1 = 14 ]] && bot_retorno+="$(fun_trans "Usuario Ja Existe")" && bot_retorno+="$LINE\n"
+         [[ $1 = 2 ]] && bot_retorno+="$(fun_trans "Usuario con nombre muy corto")" && bot_retorno+="$LINE\n"
+         [[ $1 = 3 ]] && bot_retorno+="$(fun_trans "Usuario con nombre muy grande")" && bot_retorno+="$LINE\n"
+         [[ $1 = 14 ]] && bot_retorno+="$(fun_trans "Usuario Existente")" && bot_retorno+="$LINE\n"
          ;;
          [4-6])
-         [[ $1 = 4 ]] && bot_retorno+="$(fun_trans "Senha Nula")" && bot_retorno+="$LINE\n"
-         [[ $1 = 5 ]] && bot_retorno+="$(fun_trans "Senha Muito Curta")" && bot_retorno+="$LINE\n"
-         [[ $1 = 6 ]] && bot_retorno+="$(fun_trans "Senha Muito Grande")" && bot_retorno+="$LINE\n"
+         [[ $1 = 4 ]] && bot_retorno+="$(fun_trans "Password Nulo")" && bot_retorno+="$LINE\n"
+         [[ $1 = 5 ]] && bot_retorno+="$(fun_trans "Password muy corto")" && bot_retorno+="$LINE\n"
+         [[ $1 = 6 ]] && bot_retorno+="$(fun_trans "Password muy largo")" && bot_retorno+="$LINE\n"
          ;;
          [7-9])
-         [[ $1 = 7 ]] && bot_retorno+="$(fun_trans "Duracao Nula")" && bot_retorno+="$LINE\n"
-         [[ $1 = 8 ]] && bot_retorno+="$(fun_trans "Duracao invalida utilize numeros")" && bot_retorno+="$LINE\n"
-         [[ $1 = 9 ]] && bot_retorno+="$(fun_trans "Duracao maxima e de um ano")" && bot_retorno+="$LINE\n"
+         [[ $1 = 7 ]] && bot_retorno+="$(fun_trans "Duracion Nula")" && bot_retorno+="$LINE\n"
+         [[ $1 = 8 ]] && bot_retorno+="$(fun_trans "Duracion invalida utilize numeros")" && bot_retorno+="$LINE\n"
+         [[ $1 = 9 ]] && bot_retorno+="$(fun_trans "Duracion maxima de un año")" && bot_retorno+="$LINE\n"
          ;;
          1[1-3])
          [[ $1 = 11 ]] && bot_retorno+="$(fun_trans "Limite Nulo")" && bot_retorno+="$LINE\n"
          [[ $1 = 12 ]] && bot_retorno+="$(fun_trans "Limite invalido utilize numeros")" && bot_retorno+="$LINE\n"
-         [[ $1 = 13 ]] && bot_retorno+="$(fun_trans "Limite maximo e de 999")" && bot_retorno+="$LINE\n"
+         [[ $1 = 13 ]] && bot_retorno+="$(fun_trans "Limite maximo de 999")" && bot_retorno+="$LINE\n"
          ;;
          esac
          ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
@@ -445,7 +445,7 @@ local bot_retorno="$LINE\n"
      add_user "$1" "$2" "$3" "$4"
      if [[ "$?" = "1" ]]; then
      local bot_retorno="$LINE\n"
-              bot_retorno+="$(fun_trans "Usuario Nao Foi Criado")\n"
+              bot_retorno+="$(fun_trans "Usuario no creado")\n"
               bot_retorno+="$LINE\n"
               ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -453,10 +453,10 @@ local bot_retorno="$LINE\n"
       return 0
       else
       local bot_retorno="$LINE\n"
-               bot_retorno+="$(fun_trans "USUARIO CRIADO")\n"
+               bot_retorno+="$(fun_trans "USUARIOS CREADOS")\n"
                bot_retorno+="$(fun_trans "Usuario"): $1\n"
-               bot_retorno+="$(fun_trans "Senha"): $2\n"
-               bot_retorno+="$(fun_trans "Duracao"): $3\n"
+               bot_retorno+="$(fun_trans "Password"): $2\n"
+               bot_retorno+="$(fun_trans "Duracion"): $3\n"
                bot_retorno+="$(fun_trans "Limite"): $4\n"
                bot_retorno+="$LINE\n"
                ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
@@ -471,7 +471,7 @@ local bot_retorno="$LINE\n"
          bot_retorno+="$(fun_trans "MODO DE USO")\n"
          bot_retorno+="$LINE\n"
          bot_retorno+="userdell $(fun_trans "Usuario")\n"
-         bot_retorno+="$(fun_trans "Exemplo"):\n"
+         bot_retorno+="$(fun_trans "Ejemplo"):\n"
          bot_retorno+='userdell admin\n'
          bot_retorno+="$LINE\n"
 	     ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
@@ -482,7 +482,7 @@ return 0
 [[ -z "$1" ]] && error_fun && return 0
 rm_user "$1" && {
 local bot_retorno="$LINE\n"
-          bot_retorno+="$(fun_trans "Removido Com Sucesso")\n"
+          bot_retorno+="$(fun_trans "Removido Con Exito")\n"
           bot_retorno+="$LINE\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
@@ -490,7 +490,7 @@ local bot_retorno="$LINE\n"
 return 0
 } || {
 local bot_retorno="$LINE\n"
-          bot_retorno+="$(fun_trans "Usuario Nao Removido")\n"
+          bot_retorno+="$(fun_trans "Usuario No Removido")\n"
           bot_retorno+="$LINE\n"
           ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
 							--text "$(echo -e $bot_retorno)" \
