@@ -9,6 +9,7 @@ gestor.sh
 http-server.py
 master.sh
 menu
+message.txt
 openvpn.sh
 paysnd.sh
 PDirect.py
