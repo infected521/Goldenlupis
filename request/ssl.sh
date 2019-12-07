@@ -22,9 +22,6 @@ barra="\e[33m======================================================\033[1;37m"
 [[ -z $1 ]] && exit || id=$1
 SCPfrm="/etc/ger-frm" && [[ ! -d ${SCPfrm} ]] && exit
 SCPinst="/etc/ger-inst" && [[ ! -d ${SCPinst} ]] && exit
-API_TRANS="aHR0cHM6Ly93d3cuZHJvcGJveC5jb20vcy9vc29jdzVrNm1zc2xncGEvdHJhbnMK"
-SUB_DOM='base64 -d'
-wget -O /usr/bin/trans $(echo $API_TRANS|$SUB_DOM) &> /dev/null
 msg () {
 BRAN='\033[33m' && VERMELHO='\e[31m'
 VERDE='\e[33m' && AMARELO='\e[33m'
@@ -42,6 +39,30 @@ SEMCOR='\e[0m'
   "-bar4"|"-bar3")cor="${AZUL}=====================================================" && echo -e "${SEMCOR}${cor}${SEMCOR}";;
  esac
 }
+fun_bar () {
+comando[0]="$1"
+comando[1]="$2"
+ (
+[[ -e $HOME/fim ]] && rm $HOME/fim
+${comando[0]} -y > /dev/null 2>&1
+${comando[1]} -y > /dev/null 2>&1
+touch $HOME/fim
+ ) > /dev/null 2>&1 &
+echo -ne "\033[1;33m ["
+while true; do
+   for((i=0; i<18; i++)); do
+   echo -ne "\033[1;31m##"
+   sleep 0.1s
+   done
+   [[ -e $HOME/fim ]] && rm $HOME/fim && break
+   echo -e "\033[1;33m]"
+   sleep 1s
+   tput cuu1
+   tput dl1
+   echo -ne "\033[1;33m ["
+done
+echo -e "\033[1;33m]\033[1;31m -\033[1;32m 100%\033[1;37m"
+}
 
 mportas () {
 unset portas
@@ -55,40 +76,40 @@ echo -e "$portas"
 }
 ssl_stunel () {
 [[ $(mportas|grep stunnel4|head -1) ]] && {
-echo -e "\033[1;33m $(fun_trans ${id}  ${id}   "Parando Stunnel")"
+echo -e "\033[1;33m $(fun_trans ${id} "Parando Stunnel")"
 msg -bar
 fun_bar "apt-get purge stunnel4 -y"
 msg -bar
-echo -e "\033[1;33m $(fun_trans ${id}   "Parado Con Exito!")"
+echo -e "\033[1;33m $(fun_trans ${id} "Parado Con Exito!")"
 msg -bar
 return 0
 }
-echo -e "\033[1;32m $(fun_trans ${id}   "INSTALADOR SSL LA CASITA DEL TERROR")"
+echo -e "\033[1;32m $(fun_trans ${id} "INSTALADOR SSL LA CASITA DEL TERROR")"
 msg -bar
-echo -e "\033[1;33m $(fun_trans ${id}   "Seleccione una puerta de redirección interna.")"
-echo -e "\033[1;33m $(fun_trans ${id}   "Es decir, un puerto en su servidor para SSL")"
+echo -e "\033[1;33m $(fun_trans ${id} "Seleccione una puerta de redirección interna.")"
+echo -e "\033[1;33m $(fun_trans ${id} "Es decir, un puerto en su servidor para SSL")"
 msg -bar
          while true; do
          echo -ne "\033[1;37m"
          read -p " Local-Port: " portx
          if [[ ! -z $portx ]]; then
              if [[ $(echo $portx|grep [0-9]) ]]; then
-                [[ $(mportas|grep $portx|head -1) ]] && break || echo -e "\033[1;31m $(fun_trans ${id}   "Puerta invalida")"
+                [[ $(mportas|grep $portx|head -1) ]] && break || echo -e "\033[1;31m $(fun_trans ${id} "Puerta invalida")"
              fi
          fi
          done
 msg -bar
 DPORT="$(mportas|grep $portx|awk '{print $2}'|head -1)"
-echo -e "\033[1;33m $(fun_trans ${id}   "Ahora Prestamos Saber Que Puerta del SSL, Va a Escuchar")"
+echo -e "\033[1;33m $(fun_trans ${id} "Ahora Prestamos Saber Que Puerta del SSL, Va a Escuchar")"
 msg -bar
     while true; do
     read -p " Listen-SSL: " SSLPORT
     [[ $(mportas|grep -w "$SSLPORT") ]] || break
-    echo -e "\033[1;33m $(fun_trans ${id}   "Esta puerta está en uso")"
+    echo -e "\033[1;33m $(fun_trans ${id} "Esta puerta está en uso")"
     unset SSLPORT
     done
 msg -bar
-echo -e "\033[1;33m $(fun_trans ${id}   "Instalando SSL")"
+echo -e "\033[1;33m $(fun_trans ${id} "Instalando SSL")"
 msg -bar
 fun_bar "apt-get install stunnel4 -y"
 echo -e "client = no\n[SSL]\ncert = /etc/stunnel/stunnel.pem\naccept = ${SSLPORT}\nconnect = 127.0.0.1:${DPORT}" > /etc/stunnel/stunnel.conf
@@ -104,7 +125,7 @@ mv stunnel.pem /etc/stunnel/
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 service stunnel4 restart > /dev/null 2>&1
 msg -bar
-echo -e "\033[1;33m $(fun_trans ${id}   "INSTALADO CON EXITO")"
+echo -e "\033[1;33m $(fun_trans ${id} "INSTALADO CON EXITO")"
 msg -bar
 rm -rf /etc/ger-frm/stunnel.crt > /dev/null 2>&1
 rm -rf /etc/ger-frm/stunnel.key > /dev/null 2>&1
@@ -113,32 +134,32 @@ rm -rf /root/stunnel.key > /dev/null 2>&1
 return 0
 }
 ssl_stunel_2 () {
-echo -e "\033[1;32m $(fun_trans ${id}   "INSTALADOR SSL LA CASITA DEL TERROR")"
+echo -e "\033[1;32m $(fun_trans ${id} "INSTALADOR SSL LA CASITA DEL TERROR")"
 msg -bar
-echo -e "\033[1;33m $(fun_trans ${id}   "Seleccione una puerta de redirección interna.")"
-echo -e "\033[1;33m $(fun_trans ${id}   "Es decir, un puerto en su servidor para SSL")"
+echo -e "\033[1;33m $(fun_trans ${id} "Seleccione una puerta de redirección interna.")"
+echo -e "\033[1;33m $(fun_trans ${id} "Es decir, un puerto en su servidor para SSL")"
 msg -bar
          while true; do
          echo -ne "\033[1;37m"
          read -p " Local-Port: " portx
          if [[ ! -z $portx ]]; then
              if [[ $(echo $portx|grep [0-9]) ]]; then
-                [[ $(mportas|grep $portx|head -1) ]] && break || echo -e "\033[1;31m $(fun_trans ${id}   "Puerta invalida")"
+                [[ $(mportas|grep $portx|head -1) ]] && break || echo -e "\033[1;31m $(fun_trans ${id} "Puerta invalida")"
              fi
          fi
          done
 msg -bar
 DPORT="$(mportas|grep $portx|awk '{print $2}'|head -1)"
-echo -e "\033[1;33m $(fun_trans ${id}   "Ahora Escribiremos Que Puerta del SSL, Va a Escuchar")"
+echo -e "\033[1;33m $(fun_trans ${id} "Ahora Escribiremos Que Puerta del SSL, Va a Escuchar")"
 msg -bar
     while true; do
     read -p " Listen-SSL: " SSLPORT
     [[ $(mportas|grep -w "$SSLPORT") ]] || break
-    echo -e "\033[1;33m $(fun_trans ${id}   "Esta puerta está en uso")"
+    echo -e "\033[1;33m $(fun_trans ${id} "Esta puerta está en uso")"
     unset SSLPORT
     done
 msg -bar
-echo -e "\033[1;33m $(fun_trans ${id}   "Instalando SSL")"
+echo -e "\033[1;33m $(fun_trans ${id} "Instalando SSL")"
 msg -bar
 fun_bar "apt-get install stunnel4 -y"
 echo -e "client = no\n[SSL+]\ncert = /etc/stunnel/stunnel.pem\naccept = ${SSLPORT}\nconnect = 127.0.0.1:${DPORT}" >> /etc/stunnel/stunnel.conf
@@ -146,7 +167,7 @@ echo -e "client = no\n[SSL+]\ncert = /etc/stunnel/stunnel.pem\naccept = ${SSLPOR
 sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
 service stunnel4 restart > /dev/null 2>&1
 msg -bar
-echo -e "\033[1;33m $(fun_trans ${id}   "INSTALADO CON EXITO")"
+echo -e "\033[1;33m $(fun_trans ${id} "INSTALADO CON EXITO")"
 msg -bar
 rm -rf /etc/ger-frm/stunnel.crt > /dev/null 2>&1
 rm -rf /etc/ger-frm/stunnel.key > /dev/null 2>&1
