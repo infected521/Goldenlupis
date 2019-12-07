@@ -536,7 +536,7 @@ msg -bar3
 msg -bar3
 msg -ama ">>>>>>>>\033[97m[\033[33m PANEL DE ADMINISTRACION PARA VPS \033[97m]\033[33m<<<<<<<< "
 msg -ama "         \033[97m         [\033[33m GOLD ADM PRO \033[97m] "
-msg -ama "         \033[97m           [\033[33m LUPIS LOVE \033[97m] "
+msg -ama "         \033[97m          [\033[33m LUPIS LOVE \033[97m] "
 msg -bar3
 echo -ne "\033[33m [1] > " && msg -azu "${txt[1]}"
 echo -ne "\033[33m [2] > " && msg -azu "${txt[2]}"
