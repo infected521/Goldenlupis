@@ -1,23 +1,8 @@
 #!/bin/bash
-
-SCPdir="/etc/newadm"
-SCPusr="${SCPdir}/ger-user"
-SCPfrm="/etc/ger-frm"
-SCPfrm3="/etc/adm-lite"
-SCPinst="/etc/ger-inst"
-SCPidioma="${SCPdir}/idioma"
-
-
-declare -A cor=( [0]="\033[1;37m" [1]="\033[1;34m" [2]="\033[1;31m" [3]="\033[1;33m" [4]="\033[1;32m" )
-SCPfrm="/etc/ger-frm" && [[ ! -d ${SCPfrm} ]] && exit
-SCPinst="/etc/ger-inst" && [[ ! -d ${SCPinst} ]] && exit
-API_TRANS="aHR0cHM6Ly93d3cuZHJvcGJveC5jb20vcy9vc29jdzVrNm1zc2xncGEvdHJhbnMK"
-SUB_DOM='base64 -d'
-fun_trans ${id}  () { 
+fun_trans () { 
 local texto
 local retorno
 declare -A texto
-[[ ! -e /usr/bin/trans ]] && wget -O /usr/bin/trans $(echo $API_TRANS|$SUB_DOM) &> /dev/null
 [[ ! -e /etc/texto-adm ]] && touch /etc/texto-adm
 source /etc/texto-adm
 if [[ -z $(echo ${texto[$2]}) ]]; then
@@ -31,6 +16,31 @@ ENGINES=(aspell google deepl bing spell hunspell apertium yandex)
 else
  echo "${texto[$2]}"
 fi
+}
+declare -A cor=( [0]="\033[33m" [1]="\033[33m" [2]="\033[33m" [3]="\033[33m" [4]="\033[33m" )
+barra="\e[33m======================================================\033[1;37m"
+[[ -z $1 ]] && exit || id=$1
+SCPfrm="/etc/ger-frm" && [[ ! -d ${SCPfrm} ]] && exit
+SCPinst="/etc/ger-inst" && [[ ! -d ${SCPinst} ]] && exit
+API_TRANS="aHR0cHM6Ly93d3cuZHJvcGJveC5jb20vcy9vc29jdzVrNm1zc2xncGEvdHJhbnMK"
+SUB_DOM='base64 -d'
+wget -O /usr/bin/trans $(echo $API_TRANS|$SUB_DOM) &> /dev/null
+msg () {
+BRAN='\033[33m' && VERMELHO='\e[31m'
+VERDE='\e[33m' && AMARELO='\e[33m'
+AZUL='\e[33m' && MAGENTA='\e[35m'
+MAG='\033[33m' && NEGRITO='\e[1m'
+SEMCOR='\e[0m'
+ case $1 in
+  -ne)cor="${VERMELHO}${NEGRITO}" && echo -ne "${cor}${2}${SEMCOR}";;
+  -ama)cor="${AMARELO}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}";;
+  -verm)cor="${AMARELO}${NEGRITO}[!] ${VERMELHO}" && echo -e "${cor}${2}${SEMCOR}";;
+  -azu)cor="${MAG}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}";;
+  -verd)cor="${VERDE}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}";;
+  -bra)cor="${BRAN}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}";;
+  "-bar2"|"-bar")cor="${AZUL}=====================================================" && echo -e "${SEMCOR}${cor}${SEMCOR}";;
+  "-bar4"|"-bar3")cor="${AZUL}=====================================================" && echo -e "${SEMCOR}${cor}${SEMCOR}";;
+ esac
 }
 
 mportas () {
