@@ -318,7 +318,7 @@ printf "\n\t\t$red ACTUALIZADOR MASTER\n\n$srt"
 fun_bar 'apt install update -y'
 fun_bar 'apt install upgrade -y'
 rm -f /etc/SCRIPT/* > /dev/null 2>&1
-https://www.dropbox.com/s/evuqi7xv3amdrsy/master.sh > /dev/null 2>&1
+wget https://www.dropbox.com/s/evuqi7xv3amdrsy/master.sh > /dev/null 2>&1
 chmod 755 master.sh > /dev/null 2>&1
 ./master.sh && rm -f master.sh* > /dev/null 2>&1
 fun_bar 'sleep 2s'
